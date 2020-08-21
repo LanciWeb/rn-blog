@@ -4,7 +4,7 @@ import BlogPostForm from '../components/BlogPostForm';
 import { Context as BlogContext } from '../context/BlogContext';
 
 const EditScreen = ({ navigation }) => {
-  const { navigate, getParam } = navigation;
+  const { pop, getParam } = navigation;
   const postId = getParam('postId');
   if (!postId) return null;
 
@@ -20,7 +20,7 @@ const EditScreen = ({ navigation }) => {
         id: postId,
       },
       () => {
-        navigate('Index');
+        pop();
       }
     );
   };
