@@ -1,3 +1,4 @@
+import jsonServer from '../api/jsonServer';
 const addBlogPost = (dispatch) => {
   return async (title, content, callback) => {
     try {
@@ -22,4 +23,14 @@ const editBlogPost = (dispatch) => (post, callback) => {
   }
 };
 
-export default { addBlogPost, editBlogPost, deleteBlogPost };
+const fetchBlogPosts = (dispatch) => async () => {
+  try {
+    const response = await jsonServer.get('/blogposts');
+    const blogPosts = response.data;
+    dispatch({ type: 'fetch', payload: blogPosts });
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export default { addBlogPost, editBlogPost, deleteBlogPost, fetchBlogPosts };

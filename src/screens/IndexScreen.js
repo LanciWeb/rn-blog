@@ -1,11 +1,17 @@
 import React from 'react';
 import { Feather } from '@expo/vector-icons';
-import { StyleSheet, Button, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Context as BlogContext } from '../context/BlogContext';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 const IndexScreen = ({ navigation }) => {
   const { navigate } = navigation;
-  const { state, deleteBlogPost } = React.useContext(BlogContext);
+  const { state, fetchBlogPosts, deleteBlogPost } = React.useContext(
+    BlogContext
+  );
+
+  React.useEffect(() => {
+    fetchBlogPosts();
+  }, []);
 
   return (
     <View>
@@ -28,6 +34,7 @@ const IndexScreen = ({ navigation }) => {
     </View>
   );
 };
+
 IndexScreen.navigationOptions = ({ navigation }) => {
   return {
     headerRight: () => (
