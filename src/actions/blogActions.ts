@@ -2,7 +2,7 @@ import jsonServer from '../api/jsonServer';
 const addBlogPost = (dispatch) => {
   return async (title, content, callback) => {
     try {
-      await dispatch({ type: 'add', payload: { title, content } });
+      await jsonServer.post('/blogposts', { title, content });
       callback();
     } catch (e) {
       console.error(e);
@@ -10,12 +10,19 @@ const addBlogPost = (dispatch) => {
   };
 };
 
-const deleteBlogPost = (dispatch) => (id) => {
-  dispatch({ type: 'delete', payload: id });
+const deleteBlogPost = (dispatch) => async (id) => {
+  try {
+    await jsonServer.delete(`/blogposts/${id}`);
+    dispatch({ type: 'delete', payload: id });
+  } catch (e) {
+    console.error(e);
+  }
 };
 
-const editBlogPost = (dispatch) => (post, callback) => {
+const editBlogPost = (dispatch) => async (post, callback) => {
+  const { id, title, content } = post;
   try {
+    await jsonServer.put(`/blogposts/${post.id}`, { title, content });
     dispatch({ type: 'edit', payload: post });
     callback();
   } catch (e) {

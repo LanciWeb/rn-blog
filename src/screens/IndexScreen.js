@@ -4,13 +4,22 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Context as BlogContext } from '../context/BlogContext';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 const IndexScreen = ({ navigation }) => {
-  const { navigate } = navigation;
+  const { navigate, addListener } = navigation;
   const { state, fetchBlogPosts, deleteBlogPost } = React.useContext(
     BlogContext
   );
 
   React.useEffect(() => {
     fetchBlogPosts();
+
+    //? triggers when we visit the screen again (for example through the Back button)
+    const listener = addListener('didFocus', () => {
+      fetchBlogPosts();
+    });
+
+    return () => {
+      listener.remove();
+    };
   }, []);
 
   return (

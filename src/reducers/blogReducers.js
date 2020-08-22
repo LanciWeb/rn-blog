@@ -5,15 +5,7 @@ export default (state, action) => {
   switch (type) {
     case 'fetch':
       return payload;
-    case 'add':
-      return [
-        ...prevState,
-        {
-          id: uuid(),
-          title: payload.title,
-          content: payload.content,
-        },
-      ];
+
     case 'edit':
       return prevState.map((p) =>
         p.id === payload.id ? { ...p, ...payload } : p
